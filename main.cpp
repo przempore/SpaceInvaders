@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include "include/Playground.h"
 #include "include/NPC.h"
 #include "include/Player.h"
@@ -16,7 +17,7 @@ int main()
 
 
     // definiowanie NPC
-    const int numOfNpc = 5;
+    const int numOfNpc = 3;
 //    NPC npcTab[ numOfNpc ];
     std::vector<NPC*> npcTab;
     srand( time( NULL ) );
@@ -25,8 +26,8 @@ int main()
         int x = rand() % 755;
         int y = rand() % 553;
         NPC* npc = new NPC( sf::Vector2f( x, y ), "img/monster.png", sf::Vector2f( 45.f, 47.f ) );
-        int v = 4 + rand() % 3;
-        npc->setV( v );
+//        int v = 4 + rand() % 3;
+        npc->setV( 4.f );
         npcTab.push_back( npc );
     }
 
@@ -97,52 +98,64 @@ int main()
             Bullet* bull = new Bullet( pos, "img/bullet.png", sf::Vector2f( 4, 18 ), rot );
             bull->setV( 17.f );
             bullets.push_back( bull );
+        } // if
+
+
+        for( int i = 0; i < npcTab.size(); i++ )
+        {
+            window.draw( *npcTab[ i ] );
         }
 
-
         // colizja
-        bool isTrue = false;
         for( int i = 0; i < npcTab.size(); i++ )
         {
             for( int j = 0; j < bullets.size(); j++ )
             {
                 if( collision( npcTab[ i ], bullets[ j ] ) )
                 {
-                    isTrue = true;
                     delete npcTab[ i ];
                     npcTab.erase( npcTab.begin()+i );
-                    delete bullets[ i ];
-                    bullets.erase( bullets.begin()+i );
-                    break;
-                }
-            }
-            if( isTrue )
+                    delete bullets[ j ];
+                    bullets.erase( bullets.begin()+j );
+                    for( int k = 0; k < 2; k++ )
+                    {
+                        int x = rand() % 755;
+                        int y = rand() % 553;
+                        NPC* npc = new NPC( sf::Vector2f( x, y ), "img/monster.png", sf::Vector2f( 45.f, 47.f ) );
+                        npc->setV( 4.f );
+                        npcTab.push_back( npc );
+                    } // for
+                } // if
+            } // for
+        } // for
+
+        for( int i = 0; i < npcTab.size(); i++ )
+        {
+            if( collision( &player, npcTab[ i ] ) )
             {
-                break;
+                player.reduceHPpoints();
             }
         }
 
 
+        for( int i = 0; i < bullets.size(); i++ )
+        {
+                bullets[ i ]->move();
+        }
 
-
-        for_each( bullets.begin(), bullets.end(), bullets.at( bullets.iterator it )->move() );
-//        for( int i = 0; i < bullets.size(); i++ )
-//        {
-//            bullets[ i ]->move();
-//        }
-
-        for( int i = 0; i < numOfNpc; i++ )
+        for( int i = 0; i < npcTab.size(); i++ )
         {
             npcTab[ i ]->move();
         }
-
         window.clear();
         window.draw( background );
-        for( int i = 0; i < numOfNpc; i++ )
+        window.draw( player );
+
+        for( int i = 0; i < npcTab.size(); i++ )
         {
             window.draw( *npcTab[ i ] );
         }
-        window.draw( player );
+
         for( int i = 0; i < bullets.size(); i++ )
         {
             window.draw( *bullets[ i ] );
@@ -157,6 +170,11 @@ int main()
             }
         }
 
+        if( !player.getHPpoints() )
+        {
+            window.close();
+        }
+
         window.display();
         while( clock.getElapsedTime().asMilliseconds() < 20 );
     } //while
@@ -165,7 +183,7 @@ int main()
     {
         delete npcTab[ i ];
         npcTab.erase( npcTab.begin()+i );
-    }
+    } // for
     return 0;
 }
 
@@ -174,7 +192,7 @@ bool collision( Actor* X, Actor* Y )
     float lx = abs( X->getMiddle().x - Y->getMiddle().x );
     float ly = abs( X->getMiddle().y - Y->getMiddle().y );
 
-    if( ( X->getDimensions().x  - 10)/2 + ( Y->getDimensions().x - 10 )/2 > lx  && ( X->getDimensions().y - 10 )/2 + ( Y->getDimensions().y - 10 )/2 > ly )
+    if( X->getDimensions().x/2 + Y->getDimensions().x/2 > lx  &&  X->getDimensions().y/2 +  Y->getDimensions().y/2 > ly )
     {
         return true;
     }

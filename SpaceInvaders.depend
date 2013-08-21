@@ -1,6 +1,7 @@
 # depslib dependency file v1.0
-1376763555 source:c:\users\przemo\documents\workspace code\spaceinvaders\main.cpp
+1377100385 source:c:\users\przemo\documents\workspace code\spaceinvaders\main.cpp
 	<SFML/Graphics.hpp>
+	<iostream>
 	"include/Playground.h"
 	"include/NPC.h"
 	"include/Player.h"
