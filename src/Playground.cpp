@@ -51,7 +51,7 @@ void Playground::pauseMusic()
 
 void Playground::risePoints()
 {
-    this->points += 2;
+    this->points += 1;
 }
 
 int Playground::getPoints()
@@ -67,9 +67,9 @@ void Playground::resetPoints()
 
 float Playground::points = 0.f;
 
-void Playground::setFont()
+void Playground::setFont( /*sf::Color color*/ )
 {
-    if( font.loadFromFile( "img/angrybirds.ttf" ) );
+    if( font.loadFromFile( "img/Starjedi.ttf" ) );
     this->text.setFont( font );
     this->text.setCharacterSize( 25 );
     this->text.setColor( sf::Color::Red );
@@ -80,7 +80,7 @@ void Playground::setScore()
 {
     std::fstream f;
 
-    getScore();
+//    getScore();
 
     stringVec.push_back( text.getString() );
 

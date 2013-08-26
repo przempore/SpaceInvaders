@@ -18,7 +18,7 @@ NPC::~NPC()
 
 void NPC::move()
 {
-    sprite.setPosition( this->vecPos.x += v, this->vecPos.y += v );//vecPos.y );
+    sprite.setPosition( this->vecPos.x += v, this->vecPos.y );//vecPos.y );
     if( this->vecPos.x <= 0 || this->vecPos.x >= ( 800 - getDimensions().x ) || this->vecPos.y <= 0 || this->vecPos.y >= ( 600 - getDimensions().y ) )
     {
         this->v = -this->v;

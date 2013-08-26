@@ -23,7 +23,7 @@ int Player::getHPpoints()
 
 void Player::reduceHPpoints()
 {
-    this->HPpoints -= 5.f;
+    this->HPpoints--;
 }
 
 float Player::HPpoints = 100;

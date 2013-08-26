@@ -22,7 +22,7 @@ class Playground : public Actor
         int getPoints();
         void resetPoints();
         sf::Text text;
-        void setFont();
+        void setFont( /*sf::Color color*/ );
         void setScore();
         void getScore();
         std::string getScore( int* const i );
