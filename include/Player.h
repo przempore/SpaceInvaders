@@ -10,8 +10,6 @@ class Player : public Actor
         Player();
         Player( sf::Vector2f vec, std::string url, sf::Vector2f dim );
         virtual ~Player();
-//        void moveUp();
-//        void moveDown();
         int getHPpoints();
         void reduceHPpoints();
         void moveUp();

@@ -1,6 +1,4 @@
 #include "../include/Playground.h"
-
-
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -67,7 +65,7 @@ void Playground::resetPoints()
 
 float Playground::points = 0.f;
 
-void Playground::setFont( /*sf::Color color*/ )
+void Playground::setFont()
 {
     if( font.loadFromFile( "img/Starjedi.ttf" ) );
     this->text.setFont( font );
@@ -79,8 +77,6 @@ void Playground::setFont( /*sf::Color color*/ )
 void Playground::setScore()
 {
     std::fstream f;
-
-//    getScore();
 
     stringVec.push_back( text.getString() );
 

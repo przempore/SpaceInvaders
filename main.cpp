@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include <iostream>
+//#include <iostream>
 #include "include/Playground.h"
 #include "include/NPC.h"
 #include "include/Player.h"
@@ -29,7 +29,6 @@ int main()
             isPlay = menu( window, textPoints, repeatScore );
         }
         isTrue = game( window, textPoints, repeatScore );
-//        isTrue = endMenu( window, textPoints );
         textPoints.resetPoints();
     }while( isTrue );
 }
@@ -41,7 +40,6 @@ bool game( sf::RenderWindow& window, Playground& textPoints, bool& repeatScore )
 
     // definiowanie NPC
     const int numOfNpc = 3;
-//    NPC npcTab[ numOfNpc ];
     std::vector<NPC*> npcTab;
     srand( time( NULL ) );
     for( int i = 0; i < numOfNpc; i++ )
@@ -49,7 +47,6 @@ bool game( sf::RenderWindow& window, Playground& textPoints, bool& repeatScore )
         int x = rand() % 755;
         int y = rand() % 553;
         NPC* npc = new NPC( sf::Vector2f( x, y ), "img/monster.png", sf::Vector2f( 45.f, 47.f ) );
-//        int v = 4 + rand() % 3;
         npc->setV( 4.f );
         npcTab.push_back( npc );
     } // for
@@ -233,7 +230,6 @@ bool game( sf::RenderWindow& window, Playground& textPoints, bool& repeatScore )
 
     if( window.isOpen() )
     {
-        std::cout << "Jestem tutaj\n";
         return score( window, textPoints, repeatScore );
     }
 }
@@ -348,7 +344,6 @@ bool score( sf::RenderWindow& window, Playground& textPoints, bool& repeatScore 
 {
     Playground background( sf::Vector2f( 0.f, 0.f ), "img/menuBackground.png" );
     textPoints.text.setPosition( 10, 10 );
-//    textPoints.text.setColor( sf::Color::Green );
 
     bool isPlay = false;
     while( window.isOpen() )
@@ -459,15 +454,3 @@ bool enterScore( sf::RenderWindow& scoreWindow, Playground& textPoints )
 
     return false;
 }
-
-//bool endMenu( sf::RenderWindow& window, Playground& textPoints )
-//{
-//    bool repeatScore = true;
-//
-//    if( window.isOpen() )
-//    {
-//        std::cout << "Jestem tutaj\n";
-//        score( window, textPoints, repeatScore );
-//        std::cout << "Po score\n";
-//    }
-//}
