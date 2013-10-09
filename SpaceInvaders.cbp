@@ -52,12 +52,14 @@
 			<Add directory="C:/Biblioteki/SFML-2.0/lib" />
 		</Linker>
 		<Unit filename="include/Actor.h" />
+		<Unit filename="include/Bomb.h" />
 		<Unit filename="include/NPC.h" />
 		<Unit filename="include/Player.h" />
 		<Unit filename="include/Playground.h" />
 		<Unit filename="include/bullet.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Actor.cpp" />
+		<Unit filename="src/Bomb.cpp" />
 		<Unit filename="src/NPC.cpp" />
 		<Unit filename="src/Player.cpp" />
 		<Unit filename="src/Playground.cpp" />

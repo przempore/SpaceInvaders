@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1377787711 source:c:\users\przemo\documents\workspace code\spaceinvaders\main.cpp
+1381313804 source:c:\users\przemo\documents\workspace code\spaceinvaders\main.cpp
 	<SFML/Graphics.hpp>
 	"include/Playground.h"
 	"include/NPC.h"
@@ -419,7 +419,7 @@
 	"../include/Actor.h"
 	<SFML/Audio.hpp>
 
-1377540778 source:c:\users\przemo\documents\workspace code\spaceinvaders\src\playground.cpp
+1377787842 source:c:\users\przemo\documents\workspace code\spaceinvaders\src\playground.cpp
 	"../include/Playground.h"
 	<fstream>
 	<iostream>
@@ -433,9 +433,17 @@
 1377110442 source:c:\users\przemo\documents\workspace code\spaceinvaders\src\player.cpp
 	"../include/Player.h"
 
-1376663641 source:c:\users\przemo\documents\workspace code\spaceinvaders\src\bullet.cpp
+1380965956 source:c:\users\przemo\documents\workspace code\spaceinvaders\src\bullet.cpp
 	"../include/bullet.h"
 
 1377103172 c:\users\przemo\documents\workspace code\spaceinvaders\include\bullet.h
 	"../include/Actor.h"
+
+1380965478 c:\users\przemo\documents\workspace code\spaceinvaders\include\bomb.h
+	"Actor.h"
+	"Player.h"
+	"bullet.h"
+
+1380967610 source:c:\users\przemo\documents\workspace code\spaceinvaders\src\bomb.cpp
+	"../include/Bomb.h"
 

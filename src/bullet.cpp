@@ -30,14 +30,26 @@ void Bullet::move()
     case 0:
         sprite.setPosition( this->getPosition().x, this->vecPos.y -= this->v );
         break;
+    case 45:
+        sprite.setPosition( this->vecPos.x += v, this->vecPos.y -= this->v );
+        break;
     case 90:
         sprite.setPosition( this->vecPos.x += this->v, this->getPosition().y );
+        break;
+    case 135:
+        sprite.setPosition( this->vecPos.x += v, this->vecPos.y += this->v );
         break;
     case 180:
         sprite.setPosition( this->getPosition().x, this->vecPos.y += this->v );
         break;
+    case 225:
+        sprite.setPosition( this->vecPos.x -= v, this->vecPos.y += this->v );
+        break;
     case 270:
         sprite.setPosition( this->vecPos.x -= this->v, this->getPosition().y );
+        break;
+    case 315:
+        sprite.setPosition( this->vecPos.x -= v, this->vecPos.y -= this->v );
         break;
     default:
 

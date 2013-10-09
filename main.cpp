@@ -1,5 +1,4 @@
 #include <SFML/Graphics.hpp>
-//#include <iostream>
 #include "include/Playground.h"
 #include "include/NPC.h"
 #include "include/Player.h"
@@ -74,7 +73,20 @@ bool game( sf::RenderWindow& window, Playground& textPoints, bool& repeatScore )
     // bullets
     std::vector<Bullet*> bullets;
 
-    while( window.isOpen() )
+    // bombs
+    std::vector<Bullet*> bombs;
+    bool isBClicked = false;
+    int bombsCount = 0;
+    const int maxCountBombs = 5;
+    Playground textBombs;
+    textBombs.setFont();
+    textBombs.text.setPosition( sf::Vector2f( 280.f, 8.f ) );
+    Bullet viewBullet( sf::Vector2f( 250.f, 8.f ), "img/bombs/uu.png" );
+
+    Bullet* bonusBomb = NULL;
+    bool isBombVisible = false;
+
+    while( window.isOpen() ) // glowna petla programu
     {
         clock.restart();
 
@@ -131,23 +143,56 @@ bool game( sf::RenderWindow& window, Playground& textPoints, bool& repeatScore )
             bullets.push_back( bull );
         } // if
 
-
-        for( int i = 0; i < npcTab.size(); i++ )
+        if( sf::Keyboard::isKeyPressed( sf::Keyboard::B ) && !isBClicked )
         {
-            window.draw( *npcTab[ i ] );
+            Bullet* uu = new Bullet( sf::Vector2f( player.getPosition().x - 15.f, player.getPosition().y - 21.f ), "img/bombs/uu.png", sf::Vector2f( 29.f, 41.f ), 0 );
+            uu->setV( 15.f );
+            bombs.push_back( uu );
+            Bullet* ur = new Bullet( sf::Vector2f( player.getPosition().x - 16.f, player.getPosition().y - 16.f ), "img/bombs/ur.png", sf::Vector2f( 32.f, 32.f ), 45 );
+            ur->setV( 15.f );
+            bombs.push_back( ur );
+            Bullet* rr = new Bullet( sf::Vector2f( player.getPosition().x - 20.f, player.getPosition().y - 15.f ), "img/bombs/uu.png", sf::Vector2f( 40.f, 30.f ), 90 );
+            rr->setV( 15.f );
+            bombs.push_back( rr );
+            Bullet* dr = new Bullet( sf::Vector2f( player.getPosition().x - 16.f, player.getPosition().y - 16.f ), "img/bombs/uu.png", sf::Vector2f( 32.f, 32.f ), 135 );
+            dr->setV( 15.f );
+            bombs.push_back( dr );
+            Bullet* dd = new Bullet( sf::Vector2f( player.getPosition().x - 14.f, player.getPosition().y - 20.f ), "img/bombs/uu.png", sf::Vector2f( 28.f, 39.f ), 180 );
+            dd->setV( 15.f );
+            bombs.push_back( dd );
+            Bullet* dl = new Bullet( sf::Vector2f( player.getPosition().x - 16.f, player.getPosition().y - 16.f ), "img/bombs/uu.png", sf::Vector2f( 33.f, 32.f ), 225 );
+            dl->setV( 15.f );
+            bombs.push_back( dl );
+            Bullet* ll = new Bullet( sf::Vector2f( player.getPosition().x - 20.f, player.getPosition().y - 15.f ), "img/bombs/uu.png", sf::Vector2f( 40.f, 30.f ), 270 );
+            ll->setV( 15.f );
+            bombs.push_back( ll );
+            Bullet* ul = new Bullet( sf::Vector2f( player.getPosition().x - 16.f, player.getPosition().y - 16.f ), "img/bombs/uu.png", sf::Vector2f( 32.f, 32.f ), 315 );
+            ul->setV( 15.f );
+            bombs.push_back( ul );
+
+            bombsCount++;
+            isBClicked = true;
         }
 
-        // colizja
+        if( !sf::Keyboard::isKeyPressed( sf::Keyboard::B ) && bombsCount < maxCountBombs )
+        {
+            isBClicked = false;
+        }
+
+        // kolizja
         for( int i = 0; i < npcTab.size(); i++ )
         {
             for( int j = 0; j < bullets.size(); j++ )
             {
                 if( collision( npcTab[ i ], bullets[ j ] ) )
                 {
-                    delete npcTab[ i ];
-                    npcTab.erase( npcTab.begin()+i );
-                    delete bullets[ j ];
-                    bullets.erase( bullets.begin()+j );
+                    if( npcTab.size() > 1 )
+                    {
+                        delete npcTab[ i ];
+                        npcTab.erase( npcTab.begin()+i );
+                        delete bullets[ j ];
+                        bullets.erase( bullets.begin()+j );
+                    }
                     textPoints.risePoints();
                     for( int k = 0; k < 2; k++ )
                     {
@@ -157,6 +202,37 @@ bool game( sf::RenderWindow& window, Playground& textPoints, bool& repeatScore )
                         npc->setV( 4.f );
                         npcTab.push_back( npc );
                     } // for
+                    if( i % 4 == 0 )
+                    {
+                        isBombVisible = true;
+                        bonusBomb = new Bullet( sf::Vector2f( rand()%770, rand()%550 ), "img/bombs/uu.png", sf::Vector2f( 29.f, 41.f ), 0 );
+                    }
+
+                } // if
+            } // for
+        } // for
+        if( bonusBomb )
+        {
+            if( collision( bonusBomb, &player ) )
+            {
+                bombsCount = 0;
+                delete bonusBomb;
+                bonusBomb = NULL;
+                isBombVisible = false;
+            }
+        }
+
+        for( int i = 0, npcSize = npcTab.size(); i < npcSize; i++ )
+        {
+            for( int j = 0, bombsSize = bombs.size(); j < bombsSize; j++ )
+            {
+                if( collision( npcTab[ i ], bombs[ j ] ) && npcSize > 1 )
+                {
+                    delete npcTab[ i ];
+                    npcTab.erase( npcTab.begin()+i );
+                    delete bombs[ j ];
+                    bombs.erase( bombs.begin()+j );
+                    textPoints.risePoints();
                 } // if
             } // for
         } // for
@@ -173,9 +249,15 @@ bool game( sf::RenderWindow& window, Playground& textPoints, bool& repeatScore )
         } // for
 
 
+
         for( int i = 0; i < bullets.size(); i++ )
         {
-                bullets[ i ]->move();
+            bullets[ i ]->move();
+        }
+
+        for( int i = 0; i < bombs.size(); i++ )
+        {
+            bombs[ i ]->move();
         }
 
         for( int i = 0; i < npcTab.size(); i++ )
@@ -185,6 +267,10 @@ bool game( sf::RenderWindow& window, Playground& textPoints, bool& repeatScore )
         window.clear();
         window.draw( background );
         window.draw( player );
+        if( isBombVisible )
+        {
+            window.draw( *bonusBomb );
+        }
 
         for( int i = 0; i < npcTab.size(); i++ )
         {
@@ -196,6 +282,11 @@ bool game( sf::RenderWindow& window, Playground& textPoints, bool& repeatScore )
             window.draw( *bullets[ i ] );
         }
 
+        for( int i = 0; i < bombs.size(); i++ )
+        {
+            window.draw( *bombs[ i ] );
+        }
+
         for( int i = 0; i < bullets.size(); i++ )
         {
             if( bullets[ i ]->getPosition().x < 0 || bullets[ i ]->getPosition().x > 800 || bullets[ i ]->getPosition().y < 0 || bullets[ i ]->getPosition().y > 600 )
@@ -205,27 +296,36 @@ bool game( sf::RenderWindow& window, Playground& textPoints, bool& repeatScore )
             } // if
         } // for
 
+        for( int i = 0; i < bombs.size(); i++ )
+        {
+            if( bombs[ i ]->getPosition().x < 0 - bombs[ i ]->getDimensions().x ||
+               bombs[ i ]->getPosition().x > 800 + bombs[ i ]->getDimensions().x ||
+               bombs[ i ]->getPosition().y < 0 - bombs[ i ]->getDimensions().y ||
+               bombs[ i ]->getPosition().y > 600 + bombs[ i ]->getDimensions().y )
+            {
+                delete bombs[ i ];
+                bombs.erase( bombs.begin()+i );
+            }
+        } // for
 
 
         window.draw( textPoints.text );
         textHP.text.setString( "HP: " + textHP.int2str( player.getHPpoints() ) );
+        window.draw( viewBullet );
         window.draw( textHP.text );
+        textBombs.text.setString( textBombs.int2str( maxCountBombs - bombsCount ) + "/" + textBombs.int2str( maxCountBombs ) );
+        window.draw( textBombs.text );
         window.draw( hpLine );
 
         if( player.getHPpoints() <= 0.f )
         {
-                break;
+            break;
         }
 
         window.display();
         while( clock.getElapsedTime().asMilliseconds() < 20 );
     } //while
 
-    for( int i = 0; i < npcTab.size(); i++ )
-    {
-        delete npcTab[ i ];
-        npcTab.erase( npcTab.begin()+i );
-    } // for
     repeatScore = true;
 
     if( window.isOpen() )
