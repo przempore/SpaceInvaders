@@ -202,10 +202,10 @@ bool game( sf::RenderWindow& window, Playground& textPoints, bool& repeatScore )
                         npc->setV( 4.f );
                         npcTab.push_back( npc );
                     } // for
-                    if( i % 4 == 0 )
+                    if( i % 16 == 0 && !bonusBomb )
                     {
                         isBombVisible = true;
-                        bonusBomb = new Bullet( sf::Vector2f( rand()%770, rand()%550 ), "img/bombs/uu.png", sf::Vector2f( 29.f, 41.f ), 0 );
+                        bonusBomb = new Bullet( sf::Vector2f( npcTab[ i ]->getPosition().x, npcTab[ i ]->getPosition().y ), "img/bombs/uu.png", sf::Vector2f( 29.f, 41.f ), 0 );
                     }
 
                 } // if
